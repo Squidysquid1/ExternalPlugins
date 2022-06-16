@@ -18,7 +18,7 @@ jobs:
           ref: master
           path: open-osrs
       
-      - name:Checkout Client Plugins
+      - name: Checkout Client Plugins
         uses: actions/checkout@v3
         with:
           repository: open-osrs/plugins
