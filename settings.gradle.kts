@@ -11,6 +11,7 @@ include(":LeftClickCast")
 include(":NeverLog")
 include(":OneClick")
 include(":Shayzien")
+include(":socket")
 
 for (project in rootProject.children) {
     project.apply {
