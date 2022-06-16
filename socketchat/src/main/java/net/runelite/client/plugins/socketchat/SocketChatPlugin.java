@@ -70,7 +70,7 @@ import java.util.HashMap;
 @Slf4j
 @Extension
 @PluginDescriptor(
-		name = "Socket - Chat",
+		name = "Socket Chat",
 		description = "Chat over socket",
 		tags = {"Socket", "chat"}
 )

@@ -55,18 +55,18 @@ public interface SocketChatConfig extends Config
 	}
 
 	@ConfigItem(
-			position = 3,
+			position = 4,
 			keyName = "userNameColour",
 			name = "Name colour",
 			description = "Colour of the username text"
 	)
 	default Color getNameColor()
 	{
-		return Color.WHITE;
+		return Color.CYAN;
 	}
 
 	@ConfigItem(
-			position = 4,
+			position = 5,
 			keyName = "messageColour",
 			name = "Message colour",
 			description = "Colour of the message text"
@@ -77,19 +77,19 @@ public interface SocketChatConfig extends Config
 	}
 
 	@ConfigItem(
-			position = 5,
+			position = 6,
 			keyName = "dateTimeColour",
 			name = "DateTime colour",
 			description = "Colour of the DateTime text"
 	)
 	default Color getDateTimeColor()
 	{
-		return Color.WHITE;
+		return Color.GREEN;
 	}
 
 	@Range(max = 380)
 	@ConfigItem(
-			position = 6,
+			position = 7,
 			keyName = "chatIcon",
 			name = "Chat Icon",
 			description = "Select an Icon to appear before your name in socket chat"
@@ -100,7 +100,7 @@ public interface SocketChatConfig extends Config
 	}
 
 	@ConfigItem(
-			position = 7,
+			position = 8,
 			keyName = "showTimeStamp",
 			name = "Show Time",
 			description = "Show time of the message"
@@ -111,7 +111,7 @@ public interface SocketChatConfig extends Config
 	}
 
 	@ConfigItem(
-			position = 8,
+			position = 9,
 			keyName = "showDateStamp",
 			name = "Show Date",
 			description = "Show date of the message"
@@ -122,7 +122,7 @@ public interface SocketChatConfig extends Config
 	}
 
 	@ConfigItem(
-			position = 9,
+			position = 10,
 			keyName = "freedomUnits",
 			name = "American Andys",
 			description = "Display the date incorrectly for Americans"
@@ -133,7 +133,7 @@ public interface SocketChatConfig extends Config
 	}
 
 	@ConfigItem(
-			position = 10,
+			position = 11,
 			keyName = "overheadText",
 			name = "Show Socket Messages Overhead",
 			description = "Display socket messages as overhead chat messages"
@@ -144,7 +144,7 @@ public interface SocketChatConfig extends Config
 	}
 
 	@ConfigItem(
-			position = 11,
+			position = 12,
 			keyName = "hideLocalPlayerOverhead",
 			name = "Overhead Text Exemption",
 			description = "Hide Overhead text on your own player."
@@ -155,7 +155,7 @@ public interface SocketChatConfig extends Config
 	}
 
 	@ConfigItem(
-			position = 12,
+			position = 13,
 			keyName = "splitSocketChat",
 			name = "Split Chat",
 			description = "Combine Socket Chat with private chat"
@@ -166,7 +166,7 @@ public interface SocketChatConfig extends Config
 	}
 
 	@ConfigItem(
-			position = 13,
+			position = 14,
 			keyName = "showSomeStupidShit",
 			name = "Show Custom Message",
 			description = "Can put whatever the fuck you want here... I don't fucking know"
@@ -177,7 +177,7 @@ public interface SocketChatConfig extends Config
 	}
 
 	@ConfigItem(
-			position = 14,
+			position = 15,
 			keyName = "chatnameFake",
 			name = "Use Fake Name",
 			description = "Uses a fake name for socket messages, made by Azo"
