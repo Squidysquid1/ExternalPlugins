@@ -909,7 +909,7 @@ public interface TheatreConfig extends Config
 	)
 	default XARPUS_EXHUMED_COUNT xarpusExhumedCount()
 	{
-		return XARPUS_EXHUMED_COUNT.DOWN;
+		return XARPUS_EXHUMED_COUNT.OFF;
 	}
 
 	@ConfigItem(

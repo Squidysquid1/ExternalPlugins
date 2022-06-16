@@ -714,10 +714,6 @@ public class Nylocas extends Room
 				if (config.nyloStallMessage() && nylocasAliveCounterOverlay.getNyloAlive() >= nylocasAliveCounterOverlay.getMaxNyloAlive())
 				{
 					totalStalledWaves++;
-					client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Stalled Wave: <col=EF1020>" +
-						nyloWave + "/" + NylocasWave.MAX_WAVE + "<col=00> - Time:<col=EF1020> " + nylocasAliveCounterOverlay.getFormattedTime() +
-						" <col=00>- Nylos Alive: <col=EF1020>" + nylocasAliveCounterOverlay.getNyloAlive() + "/" + nylocasAliveCounterOverlay.getMaxNyloAlive() +
-						" <col=00>- Total Stalled Waves: <col=EF1020>" + totalStalledWaves, "");
 				}
 				ticksUntilNextWave = 4;
 			}
@@ -762,7 +758,6 @@ public class Nylocas extends Room
 
 					if (inRoomRegion(TheatrePlugin.BLOAT_REGION) && point.getX() == -1 && (point.getY() == -1 || point.getY() == -2 || point.getY() == -3) && nextInstance)
 					{
-						client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Nylo instance timer started.", "");
 						instanceTimer = 3;
 						isInstanceTimerRunning = true;
 						nextInstance = false;
