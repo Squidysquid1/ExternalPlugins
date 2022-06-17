@@ -184,7 +184,7 @@ public class UIChangerPlugin extends Plugin
         Image image;
         if  (restore || !config.changeIcon())
         {
-            image = ImageUtil.loadImageResource(UIChangerPlugin.class, "runelite.png");
+            image = ImageUtil.loadImageResource(UIChangerPlugin.class, "/openosrs.png");
         }
         else
         {
@@ -193,7 +193,7 @@ public class UIChangerPlugin extends Plugin
                 image = ImageIO.read(ICON_FILE);
             } catch (IOException e)
             {
-                image = ImageUtil.loadImageResource(UIChangerPlugin.class, "peepospoon.png");
+                image = ImageUtil.loadImageResource(UIChangerPlugin.class, "/runelite.png");
             }
         }
         ClientUI.getFrame().setIconImage(image);

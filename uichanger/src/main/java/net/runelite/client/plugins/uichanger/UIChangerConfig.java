@@ -85,7 +85,7 @@ public interface UIChangerConfig extends Config {
             position = 3
     )
     default Color pluginSwitcherOnColor() {
-        return new Color(37, 197, 79);
+        return new Color(250, 138, 56);
     }
 
     @Alpha
@@ -96,6 +96,6 @@ public interface UIChangerConfig extends Config {
             position = 4
     )
     default Color pluginStarOnColor() {
-        return new Color(37, 197, 79);
+        return new Color(250, 138, 56);
     }
 }
