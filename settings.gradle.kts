@@ -73,6 +73,7 @@ include(":theatre")
 include(":ticktimers")
 include(":vetion")
 include(":vorkath")
+include(":uichanger")
 include(":wildernesslocations")
 include(":zulrah")
 
