@@ -1,5 +1,7 @@
 /*
- * Copyright (c) 2021, Nicole <github.com/losingticks>
+ * Copyright (c) 2021, Big Mf Tyler <github.com/losingticks>
+ * Copyright (c) 2021, Sundar <https://github.com/Sundar-Gandu>
+ * Copyright (c) 2021, BickusDiggus <https://github.com/BickusDiggus>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,6 +26,7 @@
  */
 package net.runelite.client.plugins.uichanger;
 
+import com.google.common.base.Strings;
 import com.google.inject.Provides;
 
 import java.awt.AlphaComposite;
@@ -45,10 +48,7 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
-import joptsimple.internal.Strings;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.Client;
-import net.runelite.api.GameState;
 import net.runelite.client.RuneLite;
 import net.runelite.client.RuneLiteProperties;
 import net.runelite.client.callback.ClientThread;
@@ -59,7 +59,6 @@ import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDependency;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.PluginInstantiationException;
 import net.runelite.client.plugins.PluginManager;
 import net.runelite.client.plugins.config.ConfigPlugin;
 import net.runelite.client.plugins.discord.DiscordPlugin;
@@ -73,16 +72,17 @@ import org.pf4j.Extension;
 @Extension
 @PluginDescriptor(
         name = "UI Changer",
-        tags = {"config", "rewriter", "reflection", "zhuri/nicole","sundar", "pajeet"},
+        description = "Changes the client name, image, and color scheme",
+        tags = {"config", "rewriter", "reflection"},
         enabledByDefault = false
 )
 @PluginDependency(ConfigPlugin.class)
 @Slf4j
-public class ReflectionPlugin extends Plugin
+public class UIChangerPlugin extends Plugin
 {
     private static final BufferedImage[] CONFIG_RESOURCES = new BufferedImage[2];
     private static final File ICON_FILE = new File(RuneLite.RUNELITE_DIR, "icon.png");
-    private static Color originalColour;
+    private static final Color originalColour = ColorScheme.BRAND_ORANGE;
 
     static
     {
@@ -90,8 +90,6 @@ public class ReflectionPlugin extends Plugin
         CONFIG_RESOURCES[1] = getImageFromConfigResource("switcher_on");
     }
 
-    @Inject
-    private Client client;
     @Inject
     private ClientThread clientThread;
     @Inject
@@ -142,37 +140,24 @@ public class ReflectionPlugin extends Plugin
 
     protected void startUp()
     {
-        clientThread.invokeLater(()->{
-            if (!(client.getGameState() == GameState.LOGGED_IN) && !(client.getGameState() == GameState.LOGIN_SCREEN))
-                return false;
-            originalColour = ColorScheme.BRAND_ORANGE;
-            updateIcon(false);
-            updateClientTitle(false);
-            updateDiscordAppID(false);
-            updatePluginListResourceImages(false);
-            return true;
-        });
+        updateIcon(false);
+        updateClientTitle(false);
+        updateDiscordAppID(false);
+        updatePluginListResourceImages(false);
     }
 
     protected void shutDown()
     {
-        clientThread.invokeLater(()->{
-            if (client.getGameState() == GameState.LOADING || client.getGameState() == GameState.UNKNOWN)
-                return false;
-
-            updateIcon(true);
-            updateClientTitle(true);
-            updateDiscordAppID(true);
-            updatePluginListResourceImages(true);
-            return true;
-        });
-
+        updateIcon(true);
+        updateClientTitle(true);
+        updateDiscordAppID(true);
+        updatePluginListResourceImages(true);
     }
 
     @Subscribe
     private void onConfigChanged(ConfigChanged event)
     {
-        if (event.getGroup().equalsIgnoreCase("reflection"))
+        if (event.getGroup().equalsIgnoreCase("uichanger"))
         {
             switch (event.getKey())
             {
@@ -199,7 +184,7 @@ public class ReflectionPlugin extends Plugin
         Image image;
         if  (restore || !config.changeIcon())
         {
-            image = ImageUtil.loadImageResource(ClientUI.class, "/openosrs.png");
+            image = ImageUtil.loadImageResource(UIChangerPlugin.class, "runelite.png");
         }
         else
         {
@@ -208,7 +193,7 @@ public class ReflectionPlugin extends Plugin
                 image = ImageIO.read(ICON_FILE);
             } catch (IOException e)
             {
-                image = ImageUtil.loadImageResource(ClientUI.class, "/runelite.png");
+                image = ImageUtil.loadImageResource(UIChangerPlugin.class, "peepospoon.png");
             }
         }
         ClientUI.getFrame().setIconImage(image);
@@ -231,16 +216,8 @@ public class ReflectionPlugin extends Plugin
                 discordService.init();
                 if (pluginManager.isPluginEnabled(plugin))
                 {
-                    SwingUtilities.invokeLater(() -> {
-                        try
-                        {
-                            pluginManager.startPlugin(plugin);
-                            pluginManager.stopPlugin(plugin);
-                        } catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-                    });
+                    pluginManager.stopPlugin(plugin);
+                    pluginManager.startPlugin(plugin);
                 }
             } catch (Exception e)
             {
@@ -282,50 +259,50 @@ public class ReflectionPlugin extends Plugin
 
     private void updatePluginListResourceImages(boolean restore)
     {
-        if (config.pluginSwitcherOnColor() != null || restore)
+        try
         {
-            try
-            {
-                Class<?> colorScheme = Class.forName("net.runelite.client.ui.ColorScheme");
-                Field osField = colorScheme.getDeclaredField("BRAND_BLUE");
-                osField.setAccessible(true);
-                Field modifiers = Field.class.getDeclaredField("modifiers");
-                modifiers.setAccessible(true);
-                modifiers.setInt(osField, osField.getModifiers() & -17);
-                osField.set(null, restore ? originalColour : config.pluginSwitcherOnColor());
+            Class<?> colorScheme = Class.forName("net.runelite.client.ui.ColorScheme");
+            Field osField = colorScheme.getDeclaredField("BRAND_BLUE");
+            osField.setAccessible(true);
+            Field modifiers = Field.class.getDeclaredField("modifiers");
+            modifiers.setAccessible(true);
+            modifiers.setInt(osField, osField.getModifiers() & -17);
+            osField.set(null, config.pluginSwitcherOnColor());
 
-            } catch (Exception e)
-            {
-                log.debug("Exception Message -> {}", e.getMessage());
-            }
-            try
-            {
-                Class<?> colorScheme = Class.forName("net.runelite.client.ui.ColorScheme");
-                Field osField = colorScheme.getDeclaredField("BRAND_ORANGE");
-                osField.setAccessible(true);
-                Field modifiers = Field.class.getDeclaredField("modifiers");
-                modifiers.setAccessible(true);
-                modifiers.setInt(osField, osField.getModifiers() & -17);
-                osField.set(null, restore ? originalColour : config.pluginSwitcherOnColor());
+        }
+        catch (Exception e)
+        {
+            log.debug("Exception Message -> {}", e.getMessage());
+        }
+        try
+        {
+            Class<?> colorScheme = Class.forName("net.runelite.client.ui.ColorScheme");
+            Field osField = colorScheme.getDeclaredField("BRAND_ORANGE");
+            osField.setAccessible(true);
+            Field modifiers = Field.class.getDeclaredField("modifiers");
+            modifiers.setAccessible(true);
+            modifiers.setInt(osField, osField.getModifiers() & -17);
+            osField.set(null, config.pluginSwitcherOnColor());
 
-            } catch (Exception e)
-            {
-                log.debug("Exception Message -> {}", e.getMessage());
-            }
-            try
-            {
-                Class<?> colorScheme = Class.forName("net.runelite.client.ui.components.ToggleButton");
-                Field osField = colorScheme.getDeclaredField("ON_SWITCHER");
-                osField.setAccessible(true);
-                Field modifiers = Field.class.getDeclaredField("modifiers");
-                modifiers.setAccessible(true);
-                modifiers.setInt(osField, osField.getModifiers() & -17);
-                osField.set(null, remapImage(CONFIG_RESOURCES[1], config.pluginSwitcherOnColor(), restore));
+        }
+        catch (Exception e)
+        {
+            log.debug("Exception Message -> {}", e.getMessage());
+        }
+        try
+        {
+            Class<?> colorScheme = Class.forName("net.runelite.client.ui.components.ToggleButton");
+            Field osField = colorScheme.getDeclaredField("ON_SWITCHER");
+            osField.setAccessible(true);
+            Field modifiers = Field.class.getDeclaredField("modifiers");
+            modifiers.setAccessible(true);
+            modifiers.setInt(osField, osField.getModifiers() & -17);
+            osField.set(null, remapImage(CONFIG_RESOURCES[1], config.pluginSwitcherOnColor(), restore));
 
-            } catch (Exception e)
-            {
-                log.debug("Exception Message -> {}", e.getMessage());
-            }
+        }
+        catch (Exception e)
+        {
+            log.debug("Exception Message -> {}", e.getMessage());
         }
 
         ConfigPlugin configPlugin = (ConfigPlugin) pluginManager.getPlugins().stream().filter((plugin) ->

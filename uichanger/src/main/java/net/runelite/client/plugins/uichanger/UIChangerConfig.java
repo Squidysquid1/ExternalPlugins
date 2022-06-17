@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, Nicole <github.com/losingticks>
+ * Copyright (c) 2021, BickusDiggus <https://github.com/BickusDiggus>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,9 +22,11 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.UIChanger;
+package net.runelite.client.plugins.uichanger;
 
 import java.awt.Color;
+
+import net.runelite.client.config.Alpha;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
@@ -36,8 +38,8 @@ public interface UIChangerConfig extends Config {
     @ConfigItem(
             name = "Change Icon",
             keyName = "changeIcon",
-            description = "Change the client icon. By default it will be runelite" +
-                    "<br>If you want a custom icon, put a picture named icon.png in your .openosrs folder",
+            description = "Change the client icon. By default it will be SpoonLite" +
+                    "<br>If you want a custom icon, put a picture named 'icon.png' in your .openosrs folder",
             position = -1
     )
     default boolean changeIcon() {
@@ -64,6 +66,7 @@ public interface UIChangerConfig extends Config {
         return "409416265891971072";
     }
 
+    @Alpha
     @ConfigItem(
             name = "Plugin Title Color",
             keyName = "pluginTitleColor",
@@ -74,19 +77,25 @@ public interface UIChangerConfig extends Config {
         return Color.WHITE;
     }
 
+    @Alpha
     @ConfigItem(
             name = "Plugin Toggled Color",
             keyName = "pluginSwitcherOnColor",
-            description = "",
+            description = "Default is SpoonLite color",
             position = 3
     )
-    Color pluginSwitcherOnColor();
+    default Color pluginSwitcherOnColor() {
+        return new Color(37, 197, 79);
+    }
 
+    @Alpha
     @ConfigItem(
             name = "Plugin Favorited Color",
             keyName = "pluginStarOnColor",
-            description = "",
+            description = "Default is SpoonLite color",
             position = 4
     )
-    Color pluginStarOnColor();
+    default Color pluginStarOnColor() {
+        return new Color(37, 197, 79);
+    }
 }
