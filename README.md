@@ -7,6 +7,10 @@ Add this repo to your external plugins manager by clicking the top right + butto
 
 ## Plugins
 This is my personal collection of plugins from different sources with some minor changes or different config defaults. Currently the repos found in here are:
+
+
 https://github.com/xKylee/plugins-source
 
 https://github.com/Ganom/ExternalPlugins
+
+https://github.com/Sundar-Gandu/Pajeet-Plugin
